@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.ercot.cp</groupId>
+  <artifactId>ews-client</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <parent>
+  	<groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.3.3.RELEASE</version>
+  </parent>
+  
+  <properties>
+  	<java.version>1.8</java.version>
+  </properties>
+
+  <dependencies>
+  	<dependency>
+    	<groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter</artifactId>
+   	</dependency>
+    <dependency>
+    	<groupId>org.springframework.ws</groupId>
+        <artifactId>spring-ws-core</artifactId>
+    </dependency>
+    <dependency>
+		<groupId>org.springframework.ws</groupId>
+		<artifactId>spring-ws-security</artifactId>
+		<version>2.2.4.RELEASE</version>
+	</dependency>
+	<dependency>
+		<groupId>javax.activation</groupId>
+		<artifactId>activation</artifactId>
+		<version>1.1.1</version>
+	</dependency>
+	<dependency>
+        <groupId>com.sun.xml.wss</groupId>
+        <artifactId>xws-security</artifactId>
+        <version>3.0</version>
+        <exclusions>
+            <exclusion>
+                <groupId>javax.xml.crypto</groupId>
+                <artifactId>xmldsig</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+  </dependencies>
+  
+  <build>
+  	<plugins>
+  		<!-- tag::spring-boot[] -->
+    	<plugin>
+        	<groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+        <!-- end::spring-boot[] -->
+        
+        <!-- tag::wsdl[] -->
+        <!-- <plugin>
+        	<groupId>org.jvnet.jaxb2.maven2</groupId>
+            <artifactId>maven-jaxb2-plugin</artifactId>
+            <version>0.12.3</version>
+            <executions>
+            	<execution>
+                	<goals>
+                    	<goal>generate</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+            	<schemaDirectory>src/main/schemas</schemaDirectory>
+            	<schemaIncludes>
+          			<include>Nodal.wsdl</include>
+        		</schemaIncludes>
+            	<schemaLanguage>WSDL</schemaLanguage>
+                <clearOutputDir>false</clearOutputDir>
+        		<generateDirectory>src/main/java</generateDirectory>
+        		<strict>true</strict>
+            </configuration>
+        </plugin> -->
+       <!-- end::wsdl[] -->
+    </plugins>
+  </build>
+    
+</project>
