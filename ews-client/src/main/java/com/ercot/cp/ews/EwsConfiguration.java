@@ -47,7 +47,6 @@ public class EwsConfiguration {
 	@Bean
 	public EwsClient ewsClient(Jaxb2Marshaller marshaller) {
 		EwsClient client = new EwsClient();
-		client.setDefaultUri("/BusinessService/NodalService.serviceagent/HttpEndPoint");
 		client.setMarshaller(marshaller);
 		client.setUnmarshaller(marshaller);
 		client.setInterceptors(new ClientInterceptor[]{securityInterceptor()});
