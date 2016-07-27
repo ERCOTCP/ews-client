@@ -8,6 +8,8 @@ import java.util.TimeZone;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerFactory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,16 +26,20 @@ import org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.
 import org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_utility_1_0.*;
 
 @SpringBootApplication
+@SuppressWarnings("unused")
 public class Application {
 	
-	private static final String soap_address_dev = "https://dvleip001.ercot.com:8443/sst/runtime.asvc/com.ercot.eip.wsrb";
-	private static final String soap_address_itest = "https://testingapi.ercot.com/2007-08/Nodal/eEDS/EWS/";
-	private static final String soap_address_itest_alt = "https://misapitest.ercot.com/2007-08/Nodal/eEDS/EWS/";
+	private static final Logger log = LoggerFactory.getLogger(Application.class);
+	
+	//SOAP address
+	private static final String soap_address = "https://misapitest.ercot.com/2007-08/Nodal/eEDS/EWS/";
 
+	//HttpEndpoints
 	private static final String soap_action_market_transactions = "/BusinessService/NodalService.serviceagent/HttpEndPoint/MarketTransactions";
 	private static final String soap_action_market_info = "/BusinessService/NodalService.serviceagent/HttpEndPoint/MarketInfo";
 	private static final String soap_action_alerts = "/BusinessService/NodalService.serviceagent/HttpEndPoint/Alerts";
 	
+	//Verbs
 	private static final String _cancel = "cancel";
 	private static final String _canceled = "canceled";
 	private static final String _change = "change";
@@ -51,22 +57,22 @@ public class Application {
 	private static final String _updated = "updated";
 	
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class);
+		SpringApplication.run(Application.class,args);
 	}
 
 	@Bean
 	CommandLineRunner lookup(EwsClient ewsClient) {
 		return args -> {
 			try {
-				ewsClient.callEWS(soap_address_itest_alt, soap_action_market_info, formRequest());
+				ewsClient.callEWS(soap_address, soap_action_market_info, formRequest());
 			} catch (SoapFaultClientException e) {
-				System.out.println("Encountered a soap fault client exception");
-				System.out.println(e.getFaultStringOrReason());
+				log.error("Encountered a soap fault client exception");
+				log.error(e.getFaultStringOrReason());
 				Source sfceSource = e.getSoapFault().getSource();
 				StringResult sr = new StringResult();
 				TransformerFactory.newInstance().newTransformer().transform(sfceSource, sr);
-				System.out.println(sr.toString());
-			}
+				log.error(sr.toString());
+			} 
 		};
 	}
 	
@@ -104,8 +110,7 @@ public class Application {
 		//Build Request
 		RequestType requestRequest = new RequestType();
 		requestRequest.getID().add("QLUMN1.20160415.COP");
-		
-		
+	
 		//Set header and request
 		request.setHeader(requestHeader);
 		request.setRequest(requestRequest);
