@@ -85,7 +85,7 @@ public class Application {
 		EncodedString nonce = new EncodedString();
 		AttributedDateTime created = new AttributedDateTime(); 
 		Date createdDate = new Date();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS-05:00");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS-06:00");
 		
 		requestHeader.setVerb(_get);
 		
