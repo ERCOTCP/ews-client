@@ -99,17 +99,19 @@ public class Application {
 		
 		requestHeader.setRevision("1");
 		
-		requestHeader.setSource("QLUMN1");
+		//TODO: Set source to CN (common name) on your certificate
+		requestHeader.setSource("");
 		
-		requestHeader.setUserID("API_DCUPGRADE");
+		//TODO: Set user id to EmployeeID on your certificate
+		requestHeader.setUserID("");
 		
 		requestHeader.setMessageID("20110719SJ1");
 		
-		requestHeader.setComment("InternalUIMpDunsNumber$0000008880001");
+		requestHeader.setComment("InternalUIMpDunsNumber$0000000000001");
 		
 		//Build Request
 		RequestType requestRequest = new RequestType();
-		requestRequest.getID().add("QLUMN1.20160415.COP");
+		requestRequest.getID().add("REQ.20160415.COP");
 	
 		//Set header and request
 		request.setHeader(requestHeader);
