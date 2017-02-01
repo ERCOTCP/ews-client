@@ -16,8 +16,8 @@ public class EwsClient extends WebServiceGatewaySupport {
 			throws SoapFaultClientException {
 		
 		log.info("Calling EWS");
-		log.info("Soap Address: " + soapAddress);
-		log.info("Soap Action: " + soapAction);
+		log.info("Soap Address: {}", soapAddress);
+		log.info("Soap Action: {}", soapAction);
 		
 		ResponseMessage response = (ResponseMessage) getWebServiceTemplate()
 				.marshalSendAndReceive(
@@ -35,12 +35,12 @@ public class EwsClient extends WebServiceGatewaySupport {
 			//print response header
 			HeaderType ht = response.getHeader();
 			if(ht != null) {
-				log.info("Verb: " + ht.getVerb());
-				log.info("Noun: " + ht.getNoun());
-				log.info("Revision: " + ht.getRevision());
-				log.info("Source: " + ht.getSource());
-				log.info("UserID: " + ht.getUserID());
-				log.info("MessageID: " + ht.getMessageID());
+				log.info("Verb: {}", ht.getVerb());
+				log.info("Noun: {}", ht.getNoun());
+				log.info("Revision: {}", ht.getRevision());
+				log.info("Source: {}", ht.getSource());
+				log.info("UserID: {}", ht.getUserID());
+				log.info("MessageID: {}", ht.getMessageID());
 			} else {
 				log.info("Response header was null");
 			}
@@ -48,8 +48,8 @@ public class EwsClient extends WebServiceGatewaySupport {
 			//print response reply
 			ReplyType rt = response.getReply();
 			if(rt != null) {
-				log.info("ReplyCode: " + rt.getReplyCode());
-				log.info("Timestamp: " + rt.getTimestamp().toString());
+				log.info("ReplyCode: {}", rt.getReplyCode());
+				log.info("Timestamp: {}", rt.getTimestamp().toString());
 			} else {
 				log.info("Response reply was null");
 			}	
