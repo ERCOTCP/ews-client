@@ -8,6 +8,7 @@ import javax.xml.transform.TransformerFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -52,6 +53,7 @@ public class Application implements CommandLineRunner {
 	private static final String _updated = "updated";
 
 	//Web service client
+	@Autowired
 	private EwsClient ewsClient;
 
 	//Set by ews.header.source in src/main/resources/application.properties
@@ -62,10 +64,6 @@ public class Application implements CommandLineRunner {
 	@Value("${ews.header.userid}")
 	private String userId;
 
-	public Application(EwsClient ewsClient){
-		this.ewsClient = ewsClient;
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
@@ -73,6 +71,7 @@ public class Application implements CommandLineRunner {
 	@Override
 	public void run(String... strings) throws Exception {
 		try {
+			//EwsClient ewsClient = new EwsClient();
 			ewsClient.callEWS(SOAP_ADDRESS, SOAP_ACTION_MARKET_INFO, formRequest());
 		} catch (SoapFaultClientException e) {
 			log.error("Encountered a soap fault client exception");
