@@ -1,10 +1,11 @@
 package com.ercot.cp.ews;
 
-import com.ercot.schema._2007_06.nodal.ews.message.*;
-
+import com.ercot.schema._2007_06.nodal.ews.message.HeaderType;
+import com.ercot.schema._2007_06.nodal.ews.message.ReplyType;
+import com.ercot.schema._2007_06.nodal.ews.message.RequestMessage;
+import com.ercot.schema._2007_06.nodal.ews.message.ResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.SoapFaultClientException;
 import org.springframework.ws.soap.client.core.SoapActionCallback;

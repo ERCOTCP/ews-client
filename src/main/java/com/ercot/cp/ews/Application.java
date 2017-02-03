@@ -71,7 +71,6 @@ public class Application implements CommandLineRunner {
 	@Override
 	public void run(String... strings) throws Exception {
 		try {
-			//EwsClient ewsClient = new EwsClient();
 			ewsClient.callEWS(SOAP_ADDRESS, SOAP_ACTION_MARKET_INFO, formRequest());
 		} catch (SoapFaultClientException e) {
 			log.error("Encountered a soap fault client exception");
