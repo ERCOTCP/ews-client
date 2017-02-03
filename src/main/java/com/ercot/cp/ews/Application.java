@@ -1,29 +1,29 @@
 package com.ercot.cp.ews;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import javax.xml.transform.Source;
-import javax.xml.transform.TransformerFactory;
-
+import com.ercot.schema._2007_06.nodal.ews.message.HeaderType;
+import com.ercot.schema._2007_06.nodal.ews.message.ReplayDetectionType;
+import com.ercot.schema._2007_06.nodal.ews.message.RequestMessage;
+import com.ercot.schema._2007_06.nodal.ews.message.RequestType;
+import org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.EncodedString;
+import org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_utility_1_0.AttributedDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.ws.soap.client.SoapFaultClientException;
 import org.springframework.xml.transform.StringResult;
 
-import com.ercot.schema._2007_06.nodal.ews.message.*;
-
-import org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.*;
-import org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_utility_1_0.*;
+import javax.xml.transform.Source;
+import javax.xml.transform.TransformerFactory;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @SpringBootApplication
 @SuppressWarnings("unused")
-public class Application implements CommandLineRunner {
+public class Application {
 
 	private static final Logger log = LoggerFactory.getLogger(Application.class);
 
@@ -52,10 +52,6 @@ public class Application implements CommandLineRunner {
 	private static final String _update = "update";
 	private static final String _updated = "updated";
 
-	//Web service client
-	@Autowired
-	private EwsClient ewsClient;
-
 	//Set by ews.header.source in src/main/resources/application.properties
 	@Value("${ews.header.source}")
 	private String sourceName;
@@ -68,18 +64,20 @@ public class Application implements CommandLineRunner {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Override
-	public void run(String... strings) throws Exception {
-		try {
-			ewsClient.callEWS(SOAP_ADDRESS, SOAP_ACTION_MARKET_INFO, formRequest());
-		} catch (SoapFaultClientException e) {
-			log.error("Encountered a soap fault client exception");
-			log.error(e.getFaultStringOrReason());
-			Source sfceSource = e.getSoapFault().getSource();
-			StringResult sr = new StringResult();
-			TransformerFactory.newInstance().newTransformer().transform(sfceSource, sr);
-			log.error(sr.toString());
-		}
+	@Bean
+	CommandLineRunner serviceCall(EwsClient ewsClient){
+		return reponseMessage -> {
+			try {
+				ewsClient.callEWS(SOAP_ADDRESS, SOAP_ACTION_MARKET_INFO, formRequest());
+			} catch (SoapFaultClientException e) {
+				log.error("Encountered a soap fault client exception");
+				log.error(e.getFaultStringOrReason());
+				Source sfceSource = e.getSoapFault().getSource();
+				StringResult sr = new StringResult();
+				TransformerFactory.newInstance().newTransformer().transform(sfceSource, sr);
+				log.error(sr.toString());
+			}
+		};
 	}
 
 	private RequestMessage formRequest() {
