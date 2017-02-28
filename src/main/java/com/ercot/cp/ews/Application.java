@@ -28,7 +28,7 @@ public class Application {
 	private static final Logger log = LoggerFactory.getLogger(Application.class);
 
 	//SOAP address
-	private static final String SOAP_ADDRESS = "https://misapitest.ercot.com/2007-08/Nodal/eEDS/EWS/";
+	private static final String SOAP_ADDRESS = "https://testingapi.ercot.com/2007-08/Nodal/eEDS/EWS/";
 
 	//HttpEndpoints
 	private static final String SOAP_ACTION_MARKET_TRANSACTIONS = "/BusinessService/NodalService.serviceagent/HttpEndPoint/MarketTransactions";
@@ -122,5 +122,4 @@ public class Application {
 
 		return request;
 	}
-
 }
